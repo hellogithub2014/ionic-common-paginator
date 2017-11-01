@@ -1,0 +1,26 @@
+<!----------------------------------  下拉刷新  -------------------------------------------->
+<ion-content class="general-content">
+    <ion-refresher (ionRefresh)='refreshList($event)'>
+        <ion-refresher-content text-center pullingIcon='arrow-dropdown' pullingText='松手即可更新' refreshingSpinner='bubbles' refreshingText='更新中'></ion-refresher-content>
+    </ion-refresher>
+
+    <!----------------------------------  内容区  -------------------------------------------->
+    <ng-content></ng-content>
+
+    <!-- 无数据 -->
+    <!--<div *ngIf="list?.length === 0 && !loadingFlag" class="defaultPrompt color-999 f14">-->
+    <div *ngIf="isHaveData&&list?.length === 0" class="defaultPrompt color-999 f14">
+        <img src="./assets/images/noInfo.png" />
+        <p>目前暂无数据~</p>
+    </div>
+    <!----------------------------------  上拉加载更多  -------------------------------------------->
+
+    <div text-center class="no-more color-999 f14" *ngIf='!isScrollEnable && list?.length > 0'>
+        <hr/>没有更多了
+        <hr/>
+    </div>
+    <div text-center class="load-more color-999 f14" *ngIf='!isScrollEnable && beforeLoadMoreData && list?.length > 0'>上拉加载更多</div>
+    <ion-infinite-scroll text-center [enabled]='isScrollEnable && list?.length > 0' (ionInfinite)='nextPageList($event)' threshold='0%'>
+        <ion-infinite-scroll-content loadingSpinner='bubbles' loadingText='正在加载'></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>
